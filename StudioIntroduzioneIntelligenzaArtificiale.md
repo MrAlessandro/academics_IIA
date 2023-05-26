@@ -22,7 +22,7 @@ Un algoritmo di ricerca locale è **completo** se trova sempre uno stato _goal_,
 
 #### Ricerca hill-climbing
 
-L'algoritmo di ricerca locale hill-climbing (versione _steepest-ascent_), è sintetizzato dal seguente codice:
+L'algoritmo di ricerca locale **hill-climbing** (versione _steepest-ascent_), è sintetizzato dal seguente codice:
 
 ```shell
 function HILL-CLIMBING(problem) returns a state that is a local maximum
@@ -36,7 +36,7 @@ function HILL-CLIMBING(problem) returns a state that is a local maximum
 
 Come si può facilmente comprendere dal codice, l'algoritmo esegue un loop che sposta il nodo corrente nella direzione di valori sempre crescenti fintanto che ne trova. Qualora si trovino più stati _vicini_ con il cui valore di funzione obiettivo è quello massimo   (rispetto agli altri stati _vicini_), viene scelto uno di loro in modo casuale. L'algoritmo termina quando raggiunge un stato che rappresenta un punto di massimo locale.
 
-L'algoritmo hill-climbing può essere definito _gready_ in quanto non considera eventuali conseguenze degli spostamenti che effettua. Nonostante questo si rivela efficace in molte applicazioni. Questo dipende principalmente dalla "sagoma" del panorama degli stati.
+L'algoritmo **hill-climbing** può essere definito _gready_ in quanto non considera eventuali conseguenze degli spostamenti che effettua. Nonostante questo si rivela efficace in molte applicazioni.
 Questo algoritmo tuttavia spesso non trova la soluzione ottima bensì accade che si blocchi nelle seguenti situazioni:
 
 - **Massimo locale**: Dato $S_{MAX}$ uno stato la cui valutazione della funzione obiettivo rappresenta un punto di massimo locale nel panorama degli stati. Si otterrà che nessuno stato raggiungibile da $S_{MAX}$ avrà una valutazione più alta perciò l'algoritmo terminerà.
@@ -47,36 +47,36 @@ Questo algoritmo tuttavia spesso non trova la soluzione ottima bensì accade che
 
 - **Cresta**: Reapprenta una sequenza di massimi locali non adiacenti direttamente.
 
-Il verificarsi di tali situazione dipende principalmente dalla "sagoma" del panorama degli stati.
+Il verificarsi di tali situazioni dipende principalmente dalla "forma" del panorama degli stati.
 
 Applicando l'algoritmo a vari problemi emerge che la procedura spesso si blocca proprio a causa di una delle situazioni presentate sopra.
 Effettuando una semplice modifica all'operatore di disuguaglianza nella guardia del comando if alla 5° riga, utlizzando invece che $\leq$ un $<$, si ottiene un algoritmo che si blocca considerevolmente meno frequentemente, in virtù del fatto che riesce a fare movimenti "di lato", verso stati con la medesima valutazione quindi in situazioni come plateaux. 
 
 Detto ciò è importante evidenziare il fatto che, con questa modifica, è possibile incorrere in loop infiniti qualora il controllo dell'algoritmo prendesse in considerazione stati appartenenti ad aree piatte di massimo locale.
 
-<img title="" src="./path366-3.svg" alt="" width="182" data-align="right">
+<img title="" src="./path366-3.svg" alt="" width="182" data-align="center">
 
 Una possibile soluzione a questo tipo di situazioni può essere quella di concedere un numero massimo di spostamenti "di lato" consecutivi.
 
 ##### Hill-climbing stocastico
 
-Una variante dell'algoritmo Hill-climbing. Questo sceglie casualmente una fra le possibili mosse verso stati con valutazione più alta, eventualmente assegnando a ciascuna mossa una probabilità direttamente proposzionale alla differenza fra la valutazione dello stato corrente e la valutazione dello stato adiacente considerato.
+Una variante dell'algoritmo **hill-climbing**. Questo sceglie casualmente una fra le possibili mosse verso stati con valutazione più alta, eventualmente assegnando a ciascuna mossa una probabilità direttamente proposzionale alla differenza fra la valutazione dello stato corrente e la valutazione dello stato adiacente considerato.
 
 ##### Hill-climbing con prima scelta
 
-Un'altra veriante dell'algoritmo Hill-climbing. Questo genera iterativamente e in modo casuale la lista degli stati adiacenti, finché non ne viene generato uno che ha una valutazione migliore dello stato corrente, a quel punto l'algoritmo fa una mossa verso quel nodo.
-Questa variante ottiene buoni risultati specialmente in spazi degli stati molto connessi dove la lista degli stati adiacenti può essere molto lunga.
+Un'altra veriante dell'algoritmo **hill-climbing**. Questo genera iterativamente e in modo casuale la lista degli stati successori, finché non ne viene generato uno che ha una valutazione migliore dello stato corrente, a quel punto l'algoritmo fa una mossa verso quel nodo.
+Questa variante ottiene buoni risultati specialmente in spazi degli stati molto connessi dove la lista degli stati adiacenti può essere molto lunga (potenzialmente infinita).
 
 ##### Random restart hill-climbing
 
-Questa variante dell'algoritmo hill-climbing, prevede che qualora l'algoritmo di base fallisca nel trovare uno stato _goal_, si generi casualmente un nuovo stato iniziale e, a partire da quest'ultimo, si esegua di nuovo l'algoritmo.
+Questa variante dell'algoritmo **hill-climbing**, prevede che qualora l'algoritmo di base fallisca nel trovare uno stato _goal_, si generi casualmente un nuovo stato iniziale e, a partire da quest'ultimo, si esegua di nuovo l'algoritmo.
 
-Questa variante può essere considerata completa puoiché potenzialmente esplora tutti gli stati anche solamente per il fatto che potrebbe casualmente generare uno stato goal.
+Questa variante può essere considerata completa puoiché potenzialmente esplora tutti gli stati anche solamente per il fatto che potrebbe casualmente generare uno stato *goal*.
 
 #### Tempra simulata (Simulate anealing)
 
-Come si è visto, l'algoritmo hill-climbing non produce mai mosse che abbassano la valutazione dello stato corrente, questo fatto porta alla conclusione che l'algoritmo non sia completo, in qunto, come detto, potrebbe incappare in massimi locali. Al contrario una visita randomica (_random walk_) degli stati è potenzialmente completa ma estremamente inefficente. 
-Con l'obettivo di mantenere la completezza derivante dalla _random walk_ e l'efficenza dell'hill-climbing l'algoritmo `SIMULATED-ANNEALING`, concede inizialmente mosse che diminuiscono la valutazione dello stato corrente (_mosse peggiorative_) con una probabilità proporzionale alla differenza fra l'attuale valutazione dello stato corrente e quella dello stato adiacente in considerazione ($\Delta E$). La probabilità di fare _mosse peggiorative_ inoltre, diminusce con l'avanzare dell'algoritmo ($T$).
+Come si è visto, l'algoritmo **hill-climbing** non produce mai mosse che abbassano la valutazione dello stato corrente, questo fatto porta alla conclusione che l'algoritmo non sia completo, in qunto, come detto, potrebbe incappare in massimi locali. Al contrario una visita randomica (**random walk**) degli stati è potenzialmente completa ma estremamente inefficente. 
+Con l'obettivo di mantenere la completezza derivante dalla **random walk** e l'efficenza dell'**hill-climbing** l'algoritmo `SIMULATED-ANNEALING`, concede inizialmente mosse che diminuiscono la valutazione dello stato corrente (_mosse peggiorative_) con una probabilità proporzionale alla differenza fra l'attuale valutazione dello stato corrente e quella dello stato adiacente in considerazione ($\Delta E$). La probabilità di fare _mosse peggiorative_ inoltre, diminusce con l'avanzare dell'algoritmo ($T$).
 
 ```shell
 function SIMULATED-ANNEALING(problem,schedule) returns a solution state 
@@ -87,7 +87,7 @@ function SIMULATED-ANNEALING(problem,schedule) returns a solution state
         T ← schedule(t)
         if T = 0 then 
             return current
-        next ← a randomly selected successor of current 
+        next ← a randomly selected successor of current # viene generato
         ΔE ← next.VALUE – current.VALUE
         if ΔE > 0 then # Una mossa migliorativa viene sempre accettata
             current ← next
@@ -128,7 +128,7 @@ In altri termini:
 
 #### Local beam search
 
-L'algoritmo *local beam search* tiene traccia di $k$ stati invece che solo quello corrente.
+L'algoritmo **local beam search** tiene traccia di $k$ stati invece che solo quello corrente.
 Inizialmente vengoono generati casualmente $k$ stati $[S_1, S_2, ..., S_k]$; ad ogni passo vengono espansi tutti i $k$ stati e vengono considerati i tutti i relativi successori.
 
 $$
@@ -139,17 +139,17 @@ $$
 
  Se uno fra questi è uno stato _goal_, l'algoritmo termina resituendo come risultato lo stato _goal_ trovato, altrimenti seleziona i $k$ stati migliori dalla lista risultante e ricomincia l'iterazione.
 
-A prima vista potrebbe sembrare che e random restart hill-climbing e local beam search siano lo stesso algoritmo, quando in realtà il primo esegue in modo "isolato" $k$ ricerche distinte (anche *parallelamente*), mentre nel secondo si segue una direzione che è influenzata dal prodotto di tutte le $k$ espansioni.
+A prima vista potrebbe sembrare che e random restart **hill-climbing** e **local beam search** siano lo stesso algoritmo, quando in realtà il primo esegue in modo "isolato" $k$ ricerche distinte (anche *parallelamente*), mentre nel secondo si segue una direzione che è influenzata dal prodotto di tutte le $k$ espansioni.
 
-#### Stocastic local beam search
+#### Local beam search stocastico
 
- La versione dell'algoritmo local beam search appena presentata può incorre in situazioni nelle quali i $k$ stati di cui si tiene traccia, siano localizzati tutti molto "vicini" fra loro, riducendosi in questo modo ad una versione solamente più costosa in spazio dell'hill-climbing.
+ La versione dell'algoritmo **local beam search** appena presentata può incorre in situazioni nelle quali i $k$ stati di cui si tiene traccia, siano localizzati tutti molto "vicini" fra loro, riducendosi in questo modo ad una versione solamente più costosa in spazio dell'**hill-climbing**.
 
-Nella sua variante stocastica, come fatto per l'hill-climbing stocastico, l'algoritmo local beam search sceglie in modo casuale $k$ fra i successori espansi con una probabilità maggiore per i successori con una valutazione più migliore.
+Nella sua variante stocastica, come fatto per l'**hill-climbing stocastico**, l'algoritmo local beam search sceglie in modo casuale $k$ fra i successori espansi con una probabilità maggiore per i successori con una valutazione più migliore.
 
 #### Algoritmi Genetici
 
-Gli algoritmi genetici di ricerca locale sono una variante dell'algoritmo local beam search, dove gli stati successori sono generati a partire da due fra i $k$ stati di cui si tiene traccia (*popolazione*).
+Gli **algoritmi genetici** di ricerca locale sono una variante dell'algoritmo **local beam search**, dove gli stati successori sono generati a partire da due fra i $k$ stati di cui si tiene traccia (*popolazione*).
 
 **Procedimento**:
 
@@ -162,6 +162,44 @@ Assumendo che ogni stato abbia una rappresentazione finita composta da simboli d
 - Si effettua il _crossover_, ossia vengono incrociate le parti delle rappresentazioni degli stati genitori, divise dal punto di selezione scelto nella fase precedente (seguendo uno schema a X ). 
 
 - Si introduce casualmente una variazione nelle rappresentazioni appena generate.
+
+Da un'analisi di questa categoria di algoritmi, possiamo intuire una somiglianza con l'algoritmo di **tempra simulata**, in quanto anche per gli **algoritmi genetici**, assistiamo a mosse fra stati molto diversi fra loro nelle iterazioni iniziali della procedura, per poi  convergere verso una area dello spezio degli stati sempre più circoscritta.
+
+Come per l'algoritmo **stocastic local beam search**, gli algoritmi genetici combinano la tendenza della ricerca verso stati con valutazioni migliori propria dell'algoritmo **hill-climbing**, con la stocasticità della **random walk** e la condivisione di informazioni fra ogni  ramo di sviluppo della ricerca.
+
+
+
+### Ricerca locale in spazi continui
+
+Fatta eccezione per gli algoritmi **hill-climbing con prima scelta** e **tempra simulata**, finora si sono considerati solamente algoritmi per la risoluzione di problemi situati in spazi discreti; questo perché gli algoritmi visti non gesticono spazi con fattore di diramazione infinito.
+
+Assumeremo che gli stati definiti per questa classe di problemi, siano rappresentabili con un vettore $x_i$ di lunghezza $n$ ($x_i \in \mathbb{R}^n$); in altri termini possiamo dire che gli stati sono definibili con $n$ variabili. In questo scenario, _muoversi_ fra gli stati si traduce in cambiare valori per un sottoinsieme degli $n$ componenti del vettore; tale operazione produce uno stato diverso.
+Si avrà inoltre una funzione di valutazione $f$ definita su vettori $\mathbb{R}^n$.
+
+Una possibile soluzione per la grstione di uno spazio degli stati contuinui, è quella di *discretizzare* lo spazio degli stati raggiungibili dal nodo corrente rappresentato da $\vec{x}$ di una certa quantità $\pm\delta$ per ogni componente del vettore; in questo modo, si avranno $2n$ possibili successori per ogni nodo:
+
+$$
+2\;(+\text{ o }-) \times n\;(\text{componenti di un vettore } \mathbb{R}^n)
+$$
+
+Se la funzione di valutazione $f$ è continua e differenziabile in $\mathbb{R}^n$, per ogni vettore $\vec{v} \in \mathbb{R}^n$ è possibile definire il **gradiente**, ossia un vettore $\nabla f(\vec{v})$ che suggerisce la direzione da prendere nella ricerca (come una "bussola") e un indice di quanto cresce la funzione di valutazione per gli stati in quella specifica direzione. 
+Il **gradiente** è dato dalla seguente espressione:
+
+$$
+\nabla f(\vec{x}) = \left(\frac{\delta f}{\delta x_1}, ..., \frac{\delta f}{\delta x_n}\right) \\ \text{con } \frac{\delta f}{\delta x_i} \text{derivata parziale rispetto a } x_i \text{ calcolata nel punto } \vec{x}
+$$
+
+Va da sé che il gradiente calcolato in un punto di massimo o minimo locale risulta sempre uguale a $0$.
+
+Detto ciò, è possibile esegure una procedura di ricerca del tutto simile a quella definita dall'algoritmo **hill-climbing**, calcolando il nodo successore $\vec{x}_{succ}$ a partire dal nodo corrente $\vec{x}$, utilizzando il **gradiente** tramite la seguente formula:
+
+$$
+\vec{x}_{succ} = \vec{x} \pm \eta \nabla f(\vec{x}) \\
+\text{• }+\text{ se si cerca un massimo} \\
+\text{• }-\text{ se si cerca un minimo}
+$$
+
+dove $\eta$ è una piccola costante (chiamata anche *step size*) che ridimensiona l'ampiezza dello spostamento.
 
 # <u>TODO</u>
 
